@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDTO } from './dtos/user.dto';
+import { CreateTweetDTO } from './dtos/tweet.dto';
 
 @Controller()
 export class AppController {
@@ -20,7 +21,12 @@ export class AppController {
 
   @Post('/sign-up')
   createUser(@Body() body: CreateUserDTO) {
-    this.appService.cerateUser(body);
+    this.appService.createUser(body);
     throw new HttpException('Ok', HttpStatus.OK);
+  }
+
+  @Post('/tweets')
+  createTweet(@Body() body: CreateTweetDTO) {
+    this.appService.createTweet(body);
   }
 }
