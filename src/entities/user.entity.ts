@@ -7,6 +7,13 @@ export class User {
     this._avatar = avatar;
   }
 
+  toJSON() {
+    return {
+      username: this._username,
+      avatar: this._avatar,
+    };
+  }
+
   get username(): string {
     return this._username;
   }

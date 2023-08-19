@@ -27,12 +27,27 @@ export class AppService {
     if (!userExists) {
       throw new HttpException('UNAUTHORIZED', HttpStatus.UNAUTHORIZED);
     }
-    const tweet = new Tweet(body.username, body.tweet);
+    const user = this._users.find((user) => user.username === body.username);
+    const tweet = new Tweet(user.username, user.avatar, body.tweet);
     return this._tweets.push(tweet);
   }
 
   isUserRegistered(username: string): boolean {
     const userExists = this._users.find((user) => user.username === username);
     return !!userExists;
+  }
+
+  getLastFifteenTweets(): Tweet[] {
+    const lastFifteenTweets = this._tweets.slice(-15);
+
+    return lastFifteenTweets;
+  }
+
+  getTweetsByPage(page?: number): Tweet[] {
+    const startIndex = (page - 1) * 15;
+    const endIndex = startIndex + 15;
+    const fifteenTweetsByPage = this._tweets.slice(startIndex, endIndex);
+
+    return fifteenTweetsByPage;
   }
 }

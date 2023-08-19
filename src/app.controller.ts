@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  Query,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { CreateUserDTO } from './dtos/user.dto';
@@ -28,5 +29,21 @@ export class AppController {
   @Post('/tweets')
   createTweet(@Body() body: CreateTweetDTO) {
     this.appService.createTweet(body);
+  }
+
+  @Get('/tweets')
+  getLastFifteenTweets(@Query('page') page?: number) {
+    if (page <= 0) {
+      throw new HttpException(
+        'Informe uma página válida!',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    if (!page) {
+      const lastFifteenTweets = this.appService.getLastFifteenTweets();
+      return lastFifteenTweets;
+    }
+    const tweetsByPage = this.appService.getTweetsByPage(page);
+    return tweetsByPage;
   }
 }

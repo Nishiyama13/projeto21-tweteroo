@@ -1,14 +1,19 @@
-export class Tweet {
-  private _username: string;
+import { User } from './user.entity';
+
+export class Tweet extends User {
   private _tweet: string;
 
-  constructor(username: string, tweet: string) {
-    this._username = username;
+  constructor(username: string, avatar: string, tweet: string) {
+    super(username, avatar);
     this._tweet = tweet;
   }
 
-  get username(): string {
-    return this._username;
+  toJSON() {
+    return {
+      username: this.username,
+      avatar: this.avatar,
+      tweet: this._tweet,
+    };
   }
 
   get tweet(): string {
