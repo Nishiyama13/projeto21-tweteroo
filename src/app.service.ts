@@ -50,4 +50,11 @@ export class AppService {
 
     return fifteenTweetsByPage;
   }
+
+  getTweetsByUsername(username: string): Tweet[] {
+    const userTweets = this._tweets.filter(
+      (tweet) => tweet.username === username,
+    );
+    return userTweets;
+  }
 }

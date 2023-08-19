@@ -4,6 +4,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Param,
   Post,
   Query,
 } from '@nestjs/common';
@@ -32,7 +33,7 @@ export class AppController {
   }
 
   @Get('/tweets')
-  getLastFifteenTweets(@Query('page') page?: number) {
+  getTweets(@Query('page') page?: number) {
     if (page <= 0) {
       throw new HttpException(
         'Informe uma página válida!',
@@ -45,5 +46,11 @@ export class AppController {
     }
     const tweetsByPage = this.appService.getTweetsByPage(page);
     return tweetsByPage;
+  }
+
+  @Get('/tweets/:username')
+  getTweetsByUsername(@Param('username') username: string) {
+    const userTweets = this.appService.getTweetsByUsername(username);
+    return userTweets;
   }
 }
